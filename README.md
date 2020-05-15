@@ -1,4 +1,4 @@
-# Node.js developer Weather API
+# Node.js developer Air Quality API
 
 ## Opis zadania
 
