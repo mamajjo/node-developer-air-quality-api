@@ -1,5 +1,7 @@
 const fetch = require('node-fetch');
-exports.getSensorsCurrentData = async (req, res) => {
+const Sensor = require('./sensor.model');
+
+exports.getDataForStation = async (req, res) => {
     console.log(req.params);
     let sensors = [];
     await fetch(
@@ -17,7 +19,17 @@ exports.getSensorsCurrentData = async (req, res) => {
                             data.values.find((value) => value.value != null)
                         )
                 )
-            );
+            )
+            .catch((e) => console.log(e));
     });
     res.status(200).end();
+};
+
+// exports.postDataForStationDay = async (req, res) => {
+//     console.log(req.params);
+
+// };
+
+exports.getDataForStationBetweenDates = async (req, res) => {
+    console.log(req.query);
 };

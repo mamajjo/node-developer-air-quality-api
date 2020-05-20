@@ -11,3 +11,17 @@ exports.findAll = async (req, res) => {
         res.status(400).end();
     }
 };
+
+exports.removeOne = async (req, res) => {
+    try {
+        const removedStation = await Station.findOneAndRemove({
+            stationID: req.params.id
+        });
+        if (!removedStation)
+            return res.status(400).json({ data: 'did not find' });
+        return res.status(200).json({ data: removedStation });
+    } catch (e) {
+        console.log(e);
+        return res.status(400).end();
+    }
+};

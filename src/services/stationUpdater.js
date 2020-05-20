@@ -6,6 +6,12 @@ const updateStations = async () => {
     await fetch('http://api.gios.gov.pl/pjp-api/rest/station/findAll')
         .then((response) => response.json())
         .then((data) => (foundStations = data));
+    let localStationsIDs = [];
+    foundStations.forEach((station) => {
+        localStationsIDs = [...localStationsIDs, station.id];
+    });
+    let counter = foundStations.length;
+    console.log(localStationsIDs.length + ' couter: ' + counter);
     foundStations.forEach((station) => {
         Station.create(
             {
@@ -13,9 +19,20 @@ const updateStations = async () => {
                 stationName: station.stationName
             },
             (err, res) => {
-                if (err.code === 11000)
+                counter--;
+                if (err != null && err.code != null && err.code === 11000) {
+                    const idx = localStationsIDs.indexOf(station.id);
+                    if (idx > -1) localStationsIDs.splice(idx, 1);
                     console.log(
                         'found duplicate on station: ' + station.stationName
+                    );
+                }
+                if (counter === 0 && localStationsIDs.length !== 0)
+                    console.log(
+                        'Collection changed ' +
+                            localStationsIDs.length +
+                            ' couter: ' +
+                            counter
                     );
             }
         );

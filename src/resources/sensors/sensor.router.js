@@ -4,6 +4,6 @@ const controllers = require('./sensor.controller');
 const router = Router();
 
 // /sensors/:id
-router.route('/:id').get(controllers.getSensorsCurrentData);
+router.route('/:id').get(controllers.getDataForStation);
 
 module.exports = router;

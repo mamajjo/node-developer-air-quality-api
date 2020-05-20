@@ -5,6 +5,7 @@ module.exports.connect = (url = config, opts = {}) => {
     return mongoose.connect(url.dbUrl, {
         ...opts,
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useFindAndModify: false
     });
 };
