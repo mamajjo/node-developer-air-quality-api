@@ -6,9 +6,6 @@ const stationRouter = require('./resources/station/station.router');
 const sensorRouter = require('./resources/sensors/sensor.router');
 const connect = require('./utils/db').connect;
 const config = require('./config/index');
-const dbSetUp = require('./services/stationUpdater').updateStations;
-const createDailyReportForStation = require('./services/sensorUpdater')
-    .createDailyReportForStation;
 
 const app = express();
 
@@ -45,7 +42,6 @@ module.exports.start = () => {
         app.listen(config.port, () => {
             console.log(`Server is running on ${config.port}`);
         });
-        dbSetUp();
     } catch (e) {
         console.log('could not start up');
     }
