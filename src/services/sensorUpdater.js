@@ -32,9 +32,19 @@ const average = (arr) => {
 };
 
 const agregateDaySensorDate = (stationID, sensorID, sensorKey, todaysData) => {
-    const today = todaysData[0].date.slice(0, 10);
+    let today;
+    try {
+        today = todaysData[0].date.slice(0, 10);
+    } catch (e) {
+        console.log(
+            `No todays data for sensor ${sensorID} with key ${sensorKey}`
+        );
+        return null;
+    }
     const avgValue = average(todaysData).toFixed(4);
+    const measurementID = `${stationID}-${sensorKey}-${today}`;
     return {
+        measurementID: measurementID,
         stationID: stationID,
         sensorID: sensorID,
         sensorData: {
@@ -65,11 +75,24 @@ const createDailyReportForStation = async (stationID) => {
                         sensor.id,
                         data.key,
                         todaySensorData
-                    )
+                    ),
+                    (err) => {
+                        if (
+                            err != null &&
+                            err.code != null &&
+                            err.code === 11000
+                        )
+                            console.log(
+                                'found duplicate on adding todays measurement: ' +
+                                    stationID
+                            );
+                    }
                 );
             })
             .catch((e) => console.log(e));
     });
 };
 
-exports.createDailyReportForStation = createDailyReportForStation;
+module.exports = {
+    createDailyReportForStation: createDailyReportForStation
+};

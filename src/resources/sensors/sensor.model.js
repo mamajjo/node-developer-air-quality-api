@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const sensorSchema = mongoose.Schema({
+    measurementID: {
+        type: String,
+        required: true,
+        unique: true
+    },
     stationID: {
         type: Number,
         required: true
