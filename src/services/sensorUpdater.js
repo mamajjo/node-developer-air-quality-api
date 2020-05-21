@@ -39,9 +39,9 @@ const agregateDaySensorDate = (stationID, sensorID, sensorKey, todaysData) => {
         sensorID: sensorID,
         sensorData: {
             name: sensorKey,
-            data: avgValue,
-            date: today
-        }
+            data: avgValue
+        },
+        date: today
     };
 };
 
@@ -52,7 +52,6 @@ const createDailyReportForStation = async (stationID) => {
     )
         .then((res) => res.json())
         .then((data) => (sensors = data));
-    const dailySensorData = [];
     sensors.forEach((sensor) => {
         fetch(`http://api.gios.gov.pl/pjp-api/rest/data/getData/${sensor.id}`)
             .then((res) => res.json())

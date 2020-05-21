@@ -16,9 +16,15 @@ const updateStations = async () => {
         Station.create(
             {
                 stationID: station.id,
-                stationName: station.stationName
+                stationName: station.stationName,
+                geo: {
+                    lat: station.gegrLat,
+                    lng: station.gegrLon
+                },
+                city: station.city.name,
+                address: station.addressStreet
             },
-            (err, res) => {
+            (err) => {
                 counter--;
                 if (err != null && err.code != null && err.code === 11000) {
                     const idx = localStationsIDs.indexOf(station.id);

@@ -18,11 +18,11 @@ const sensorSchema = mongoose.Schema({
             type: Number,
             required: true,
             min: 0.0
-        },
-        date: {
-            type: String,
-            required: true
         }
+    },
+    date: {
+        type: String,
+        required: true
     }
 });
 
