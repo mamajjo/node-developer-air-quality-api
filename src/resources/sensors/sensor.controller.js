@@ -1,6 +1,13 @@
 const fetch = require('node-fetch');
 const Sensor = require('./sensor.model');
 
+const average = (arr) => {
+    let sum = 0;
+    for (var i = 0; i < arr.length; i++) if (arr[i] != null) sum += arr[i];
+
+    return sum / arr.length;
+};
+
 const betweenDatesPredicate = (fromDate, toDate, date) => {
     var d1 = fromDate.split('-');
     var from = new Date(d1[0], parseInt(d1[1]) - 1, d1[2]); // -1 because months are from 0 to 11
@@ -24,6 +31,31 @@ const checkFromAfterTo = (fromDate, toDate) => {
 
     if (from > to) return false;
     return true;
+};
+
+const averageValueBetweenDates = (sensorDataBetweenDates) => {
+    const idsOfAgregated = [];
+    const averagedSensorData = [];
+    sensorDataBetweenDates.forEach((sData) => {
+        if (idsOfAgregated.includes(sData.sensorID)) return;
+        idsOfAgregated.push(sData.sensorID);
+        const dataForID = sensorDataBetweenDates.filter(
+            (record) => record.sensorID === sData.sensorID
+        );
+        let measurements = [];
+        dataForID.forEach((data) => {
+            measurements = [...measurements, data.sensorData.data];
+        });
+        averagedSensorData.push({
+            stationID: sData.stationID,
+            sensorID: sData.sensorID,
+            sensorData: {
+                name: sData.sensorData.name,
+                averagedData: average(measurements)
+            }
+        });
+    });
+    return averagedSensorData;
 };
 
 exports.getDataForStation = async (req, res) => {
@@ -83,7 +115,6 @@ exports.getDataForStationBetweenDates = async (req, res) => {
         const allSensorDataForStation = await Sensor.find({
             stationID: req.params.id
         });
-        console.log('inner');
         const sensorDataBetweenDates = allSensorDataForStation.filter((data) =>
             betweenDatesPredicate(
                 req.params.fromDate,
@@ -96,7 +127,10 @@ exports.getDataForStationBetweenDates = async (req, res) => {
             return res
                 .status(202)
                 .json({ data: 'no data for given date range' });
-        return res.status(200).json({ data: sensorDataBetweenDates });
+        const sensorDataAverage = averageValueBetweenDates(
+            sensorDataBetweenDates
+        );
+        return res.status(200).json({ data: sensorDataAverage });
     } catch (e) {
         console.log(e);
         return res.status(400).end();

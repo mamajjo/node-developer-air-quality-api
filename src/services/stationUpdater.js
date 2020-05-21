@@ -1,4 +1,6 @@
 const fetch = require('node-fetch');
+const updateSensor = require('./sensorUpdater').createDailyReportForStation;
+const findAll = require('../resources/station/station.controller').findAll;
 const Station = require('../resources/station/station.model');
 
 const updateStations = async () => {
@@ -6,12 +8,21 @@ const updateStations = async () => {
     await fetch('http://api.gios.gov.pl/pjp-api/rest/station/findAll')
         .then((response) => response.json())
         .then((data) => (foundStations = data));
-    let localStationsIDs = [];
+    let localDBStationsIDs = [];
+    await Station.find()
+        .lean()
+        .exec()
+        .then(
+            (data) =>
+                (localDBStationsIDs = data.map((d) => {
+                    return d.stationID;
+                }))
+        );
+    let remoteStationsIDs = [];
     foundStations.forEach((station) => {
-        localStationsIDs = [...localStationsIDs, station.id];
+        remoteStationsIDs = [...remoteStationsIDs, station.id];
     });
     let counter = foundStations.length;
-    console.log(localStationsIDs.length + ' couter: ' + counter);
     foundStations.forEach((station) => {
         Station.create(
             {
@@ -27,19 +38,27 @@ const updateStations = async () => {
             (err) => {
                 counter--;
                 if (err != null && err.code != null && err.code === 11000) {
-                    const idx = localStationsIDs.indexOf(station.id);
-                    if (idx > -1) localStationsIDs.splice(idx, 1);
+                    const idx = remoteStationsIDs.indexOf(station.id);
+                    if (idx > -1) remoteStationsIDs.splice(idx, 1);
                     console.log(
                         'found duplicate on station: ' + station.stationName
                     );
                 }
-                if (counter === 0 && localStationsIDs.length !== 0)
+                if (counter === 0 && remoteStationsIDs.length !== 0)
                     console.log(
                         'Collection changed ' +
-                            localStationsIDs.length +
+                            remoteStationsIDs.length +
                             ' couter: ' +
                             counter
                     );
+                if (counter === 0) {
+                    if (localDBStationsIDs.length === 0)
+                        throw new Error('local DB is empty!');
+
+                    localDBStationsIDs.forEach((id) => {
+                        updateSensor(id);
+                    });
+                }
             }
         );
     });
