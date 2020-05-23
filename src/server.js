@@ -12,7 +12,7 @@ const updateDB = require('./services/stationUpdater').updateStations;
 const app = express();
 
 var corsOptions = {
-    orgin: 'http://localhost:1234'
+    orgin: 'http://localhost:3000'
 };
 
 app.disable('x-powered-by');
@@ -44,7 +44,7 @@ module.exports.start = () => {
         app.listen(config.port, () => {
             console.log(`Server is running on ${config.port}`);
         });
-        cron.schedule('38 15 * * *', function () {
+        cron.schedule('16 16 * * *', function () {
             console.log('Update stations at 10:10PM');
             updateDB();
         });

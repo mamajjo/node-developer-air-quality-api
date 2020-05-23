@@ -6,7 +6,7 @@ const basicConfig = {
     env,
     isDev: env === 'development',
     isTest: env === 'testing',
-    port: 1234
+    port: 3000
 };
 
 let envConfig = {};
@@ -14,6 +14,9 @@ let envConfig = {};
 switch (env) {
     case 'development':
         envConfig = require('./dev').config;
+        break;
+    case 'testing':
+        envConfig = require('./testEnv').config;
         break;
     default:
         envConfig = require('./dev').config;

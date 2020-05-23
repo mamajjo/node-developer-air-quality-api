@@ -10,7 +10,10 @@
         "lint": "eslint \"src/**/*.{js}\" --quiet",
         "start": "node src/index.js",
         "dev": "nodemon --exec yarn restart",
-        "restart": "yarn start"
+        "restart": "yarn start",
+        "test": "cross-env NODE_ENV=testing jest --forceExit --detectOpenHandles --silent",
+        "test-controllers": "yarn test -t controller",
+        "test-updater": "yarn test -t DB"
     },
     "devDependencies": {
         "eslint": "^7.0.0",
@@ -38,5 +41,11 @@
         "morgan": "^1.10.0",
         "node-cron": "^2.0.3",
         "node-fetch": "^2.6.0"
+    },
+    "jest": {
+      "verbose": true,
+      "testURL": "http://localhost/",
+      "testEnvironment": "node",
+      "setupFilesAfterEnv": ["<rootDir>/test-db-setup.js"]
     }
 }
