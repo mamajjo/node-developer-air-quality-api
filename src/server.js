@@ -44,9 +44,9 @@ module.exports.start = () => {
         app.listen(config.port, () => {
             console.log(`Server is running on ${config.port}`);
         });
-        cron.schedule('16 16 * * *', function () {
+        cron.schedule('10 22 * * *', function () {
             console.log('Update stations at 10:10PM');
-            updateDB();
+            updateDB(true);
         });
     } catch (e) {
         console.log('could not start up');

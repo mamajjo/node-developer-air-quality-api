@@ -58,7 +58,7 @@ const averageValueBetweenDates = (sensorDataBetweenDates) => {
     return averagedSensorData;
 };
 
-exports.getDataForStation = async (req, res) => {
+exports.getLatestDataForStation = async (req, res) => {
     let sensors = [];
     await fetch(
         `http://api.gios.gov.pl/pjp-api/rest/station/sensors/${req.params.id}`
@@ -90,7 +90,7 @@ exports.getDataForStation = async (req, res) => {
     });
 };
 
-exports.getDataForStationForDay = async (req, res) => {
+exports.getDataForStationForDate = async (req, res) => {
     try {
         const sensorDataForDay = await Sensor.find({
             stationID: req.params.id,

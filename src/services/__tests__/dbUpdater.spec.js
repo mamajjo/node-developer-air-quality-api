@@ -8,22 +8,16 @@ async function setUpDb() {
 describe('DB setup', () => {
     try {
         setUpDb();
-        console.log('db set up');
-    } catch (e) {
-        console.log('failed to set up db');
-    }
+    } catch (e) {}
     test('updates station', async () => {
         expect.assertions(1);
         const req = {};
         const res = {
             status(status) {
-                console.log(status);
                 expect(status).toBe(200);
                 return this;
             },
-            json(data) {
-                console.log(data);
-            }
+            json(data) {}
         };
         await findAll(req, res);
     });

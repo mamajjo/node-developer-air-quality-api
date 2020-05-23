@@ -113,7 +113,7 @@ describe('Operations on Sensor Model', () => {
             },
             send(result) {}
         };
-        await controller.getDataForStationForDay(req, res);
+        await controller.getDataForStationForDate(req, res);
     });
     test('Get sensor error code', async () => {
         expect.assertions(2);
@@ -134,6 +134,28 @@ describe('Operations on Sensor Model', () => {
                 expect(data.data).toEqual(
                     'invalid dates: from(yyyy-mm-dd) > to(yyyy-mm-dd)'
                 );
+            },
+            send(result) {}
+        };
+        await controller.getDataForStationBetweenDates(req, res);
+    });
+    test('No sensor data for given range', async () => {
+        expect.assertions(2);
+        await Sensor.insertMany(mocks);
+        const req = {
+            params: {
+                id: 123,
+                fromDate: '2020-05-15',
+                toDate: '2020-05-16'
+            }
+        };
+        const res = {
+            status(status) {
+                expect(status).toBe(202);
+                return this;
+            },
+            json(data) {
+                expect(data.data).toEqual('no data for given date range');
             },
             send(result) {}
         };

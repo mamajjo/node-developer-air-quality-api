@@ -61,7 +61,10 @@ const createDailyReportForStation = async (stationID) => {
         `http://api.gios.gov.pl/pjp-api/rest/station/sensors/${stationID}`
     )
         .then((res) => res.json())
-        .then((data) => (sensors = data));
+        .then((data) => (sensors = data))
+        .catch((e) => {
+            console.log(e);
+        });
     sensors.forEach((sensor) => {
         fetch(`http://api.gios.gov.pl/pjp-api/rest/data/getData/${sensor.id}`)
             .then((res) => res.json())

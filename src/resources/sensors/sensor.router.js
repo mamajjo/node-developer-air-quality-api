@@ -4,10 +4,10 @@ const controllers = require('./sensor.controller');
 const router = Router();
 
 // /sensors/:id
-router.route('/:id').get(controllers.getDataForStation);
+router.route('/:id').get(controllers.getLatestDataForStation);
 
 // /sensors/:id/date/:date(19-05-2020)
-router.route('/:id/date/:date').get(controllers.getDataForStationForDay);
+router.route('/:id/date/:date').get(controllers.getDataForStationForDate);
 
 // sensors/:id/from/:fromDate/to/:toDate
 router
