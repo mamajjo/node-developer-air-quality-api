@@ -95,7 +95,9 @@ exports.getDataForStationForDay = async (req, res) => {
         const sensorDataForDay = await Sensor.find({
             stationID: req.params.id,
             date: req.params.date
-        });
+        })
+            .lean()
+            .exec();
         if (!sensorDataForDay) return res.status(400).end();
         if (sensorDataForDay.length === 0)
             return res.status(204).json({ data: 'no data for given date' });
@@ -109,7 +111,7 @@ exports.getDataForStationForDay = async (req, res) => {
 exports.getDataForStationBetweenDates = async (req, res) => {
     if (!checkFromAfterTo(req.params.fromDate, req.params.toDate))
         return res.status(400).json({
-            date: 'invalid dates: from(yyyy-mm-dd) > to(yyyy-mm-dd)'
+            data: 'invalid dates: from(yyyy-mm-dd) > to(yyyy-mm-dd)'
         });
     try {
         const allSensorDataForStation = await Sensor.find({

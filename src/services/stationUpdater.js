@@ -3,7 +3,7 @@ const updateSensor = require('./sensorUpdater').createDailyReportForStation;
 const findAll = require('../resources/station/station.controller').findAll;
 const Station = require('../resources/station/station.model');
 
-const updateStations = async () => {
+const updateStations = async (updateSensors = false) => {
     let foundStations = [];
     await fetch('http://api.gios.gov.pl/pjp-api/rest/station/findAll')
         .then((response) => response.json())
@@ -51,7 +51,7 @@ const updateStations = async () => {
                             ' couter: ' +
                             counter
                     );
-                if (counter === 0) {
+                if (counter === 0 && updateSensors === true) {
                     if (localDBStationsIDs.length === 0)
                         throw new Error('local DB is empty!');
 
