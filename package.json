@@ -35,6 +35,7 @@
     "dependencies": {
         "body-parser": "^1.19.0",
         "cors": "^2.8.5",
+        "cross-env": "^7.0.2",
         "express": "^4.17.1",
         "lodash": "^4.17.15",
         "mongoose": "^5.9.14",
@@ -43,9 +44,11 @@
         "node-fetch": "^2.6.0"
     },
     "jest": {
-      "verbose": true,
-      "testURL": "http://localhost/",
-      "testEnvironment": "node",
-      "setupFilesAfterEnv": ["<rootDir>/test-db-setup.js"]
+        "verbose": true,
+        "testURL": "http://localhost/",
+        "testEnvironment": "node",
+        "setupFilesAfterEnv": [
+            "<rootDir>/test-db-setup.js"
+        ]
     }
 }

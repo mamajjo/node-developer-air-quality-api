@@ -44,6 +44,10 @@ module.exports.start = () => {
         app.listen(config.port, () => {
             console.log(`Server is running on ${config.port}`);
         });
+        // first time to create stations in database
+        updateDB();
+        // second time to fetch data for station's data
+        updateDB(true);
         cron.schedule('10 22 * * *', function () {
             console.log('Update stations at 10:10PM');
             updateDB(true);

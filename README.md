@@ -24,7 +24,7 @@ yarn start
 ```
 or 
 ```
-npm start
+npm run start
 ```
 
 Application should start on port 3000. It connects to mongodb database.
@@ -47,3 +47,13 @@ To get averaged sensor data for station with {stationID} from {date} (yyyy-mm-dd
 To get averaged sensor data for station with {stationID} from {date} (yyyy-mm-dd) to {date} (yyyy-mm-dd)
 
 ### Warning! Your ip might not be on Cloud's white list. To use local db change branch to mamajjo_local
+
+### Tests
+
+```
+yarn test
+```
+or
+```
+npm run test
+```
