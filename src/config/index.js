@@ -1,6 +1,6 @@
 const lodash = require('lodash');
 const merge = lodash.merge;
-const env = process.env.NODE_ENV || 'cloud';
+const env = process.env.NODE_ENV || 'development';
 
 const basicConfig = {
     env,
