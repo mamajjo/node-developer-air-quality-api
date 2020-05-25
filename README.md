@@ -1,5 +1,13 @@
 # Node.js developer Air Quality API
 
+#### Warning! Your ip might not be on Cloud's white list. To use local db change branch to mamajjo_local
+
+To enable local db you have to install MongoDB
+
+> https://docs.mongodb.com/manual/installation/
+
+
+
 # Steps to take to run the app
 
 ## Download node.js if not present on your computer
@@ -45,10 +53,4 @@ To get averaged sensor data for station with {stationID} from {date} (yyyy-mm-dd
 
 To get averaged sensor data for station with {stationID} from {date} (yyyy-mm-dd) to {date} (yyyy-mm-dd)
 > http://localhost:3000/sensors/{stationID}/from/{date}/to/{date}
-
-### Warning! Your ip might not be on Cloud's white list. To use local db change branch to mamajjo_local
-
-To enable local db you have to install MongoDB
-
-> https://docs.mongodb.com/manual/installation/
 
