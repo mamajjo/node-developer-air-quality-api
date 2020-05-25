@@ -54,3 +54,12 @@ To get averaged sensor data for station with {stationID} from {date} (yyyy-mm-dd
 To get averaged sensor data for station with {stationID} from {date} (yyyy-mm-dd) to {date} (yyyy-mm-dd)
 > http://localhost:3000/sensors/{stationID}/from/{date}/to/{date}
 
+### Tests
+
+```
+yarn test
+```
+or
+```
+npm run test
+```
