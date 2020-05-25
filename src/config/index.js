@@ -1,11 +1,9 @@
 const lodash = require('lodash');
 const merge = lodash.merge;
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'cloud';
 
 const basicConfig = {
     env,
-    isDev: env === 'development',
-    isTest: env === 'testing',
     port: 3000
 };
 
@@ -17,6 +15,9 @@ switch (env) {
         break;
     case 'testing':
         envConfig = require('./testEnv').config;
+        break;
+    case 'cloud':
+        envConfig = require('./cloudMongoEnv').config;
         break;
     default:
         envConfig = require('./dev').config;

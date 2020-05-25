@@ -44,10 +44,10 @@ module.exports.start = () => {
         app.listen(config.port, () => {
             console.log(`Server is running on ${config.port}`);
         });
-        cron.schedule('10 22 * * *', function () {
-            console.log('Update stations at 10:10PM');
-            updateDB(true);
-        });
+        // cron.schedule('10 22 * * *', function () {
+        // console.log('Update stations at 10:10PM');
+        updateDB(true);
+        // });
     } catch (e) {
         console.log('could not start up');
     }
